@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Countdown Timer</h1>
+    <div id="timer">00:00</div>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+
+    <script>
+        let countdown;
+        let timeLeft = 0;
+
+        const timerDisplay = document.getElementById('timer');
+        const startButton = document.getElementById('start');
+        const stopButton = document.getElementById('stop');
+        const resetButton = document.getElementById('reset');
+
+        function startTimer() {
+            clearInterval(countdown);
+
+            const minutes = parseInt(prompt('Enter the number of minutes:'));
+            if (isNaN(minutes) || minutes <= 0) {
+                alert('Please enter a valid positive number of minutes.');
+                return;
+            }
+
+            timeLeft = minutes * 60;
+            displayTimeLeft();
+
+            countdown = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    timerDisplay.textContent = '00:00';
+                } else {
+                    timeLeft--;
+                    displayTimeLeft();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(countdown);
+        }
+
+        function resetTimer() {
+            clearInterval(countdown);
+            timeLeft = 0;
+            displayTimeLeft();
+        }
+
+        function displayTimeLeft() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const display = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timerDisplay.textContent = display;
+        }
+
+        startButton.addEventListener('click', startTimer);
+        stopButton.addEventListener('click', stopTimer);
+        resetButton.addEventListener('click', resetTimer);
+    </script>
+</body>
+
+</html>
